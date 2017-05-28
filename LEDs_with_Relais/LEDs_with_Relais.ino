@@ -1,6 +1,6 @@
 #include "Arduino.h"
 
-#define SWITCH 2
+#define SWITCH 7
 #define JUICE  3
 #define delayTime 20
 //The setup function is called once at startup of the sketch
