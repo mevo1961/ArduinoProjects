@@ -1,0 +1,37 @@
+// display a number on the digital segment display
+void sevenSegWrite(byte digit, boolean decimal) {
+	// define the LED digit patterns, from 0 - 9
+	// 1 = LED on, 0 = LED off, in this order:
+	//                74HC595 pin     Q0,Q1,Q2,Q3,Q4,Q5,Q6,Q7
+	//                Mapping to      a,b,c,d,e,f,g of Seven-Segment LED
+	byte seven_seg_digits[10] = {	B11111100,  // = 0
+									B01100000,  // = 1
+									B11011010,  // = 2
+									B11110010,  // = 3
+									B01100110,  // = 4
+									B10110110,  // = 5
+									B10111110,  // = 6
+									B11100000,  // = 7
+									B11111110,  // = 8
+									B11100110   // = 9
+								};
+	byte decimal_point        = 	B00000001;
+	byte tempByte             = 	B00000000;
+
+	// set the latchPin to low potential, before sending data
+	digitalWrite(latchPin, LOW);
+
+	// the original data (bit pattern)
+
+	tempByte = seven_seg_digits[digit];
+	if (decimal) {
+		tempByte |= decimal_point;
+	}
+	shiftOut(dataPin, clockPin, LSBFIRST, tempByte);
+
+	// set the latchPin to high potential, after sending data
+	digitalWrite(latchPin, HIGH);
+
+	// set brightness to full
+	analogWrite(brightnessPin, 0);
+}
