@@ -2,7 +2,6 @@
 #include "LedControl.h"
 #include "TimeLib.h"
 #include "DS3232RTC.h"
-#include "Wire.h"
 
 LedControl lc=LedControl(12,10,11,1);
 
@@ -52,25 +51,20 @@ void setNumberToMatrixRow(int row, int number, int intensity) {
 	lc.setRow(0, 2 * row + 3, secondDigit);
 }
 
-//The setup function is called once at startup of the sketch
-void setup()
-{
-	/*
-	   The MAX72XX is in power-saving mode on startup,
-	   we have to do a wakeup call
-	 */
+void wakeUpMatrix(void) {
+	// The MAX72XX is in power-saving mode on startup, we have to do a wakeup call
 	lc.shutdown(0,false);
 	// Set the brightness to a medium value
 	lc.setIntensity(0,8);
 	// and clear the display
 	lc.clearDisplay(0);
-	Serial.begin(9600);
-	Serial.begin(9600);
+}
+
+//The setup function is called once at startup of the sketch
+void setup()
+{
+	wakeUpMatrix();
 	setSyncProvider(RTC.get);   // the function to get the time from the RTC
-	if(timeStatus() != timeSet)
-		Serial.println("Unable to sync with the RTC");
-	else
-		Serial.println("RTC has set the system time");
 }
 
 // The loop function is called in an endless loop
@@ -81,9 +75,6 @@ void loop()
 	int intensity = 4;
 	setNumberToMatrixRow(0, hour(t), intensity);
 	setNumberToMatrixRow(2, minute(t), intensity);
-	Serial.println(hour(t));
-	Serial.println(minute(t));
-	Serial.println(second(t));
 	delay(1000);
 }
 
