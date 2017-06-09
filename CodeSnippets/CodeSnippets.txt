@@ -1,4 +1,6 @@
+///////////////////////////////////////////////////
 // display a number on the digital segment display
+///////////////////////////////////////////////////
 void sevenSegWrite(byte digit, boolean decimal) {
 	// define the LED digit patterns, from 0 - 9
 	// 1 = LED on, 0 = LED off, in this order:
@@ -34,4 +36,70 @@ void sevenSegWrite(byte digit, boolean decimal) {
 
 	// set brightness to full
 	analogWrite(brightnessPin, 0);
+}
+
+// *~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~
+
+/////////////////////////////////////////////////
+// print digital numbers to LED Matrix display
+/////////////////////////////////////////////////
+
+byte enlargeBinaryNumber(byte number, int factor) {
+	// double each bit of the given number
+	// factor must be 1 or 2
+	// if factor = 2, only the 4 LSBs of number are used
+	if (factor < 1) {
+		factor = 1;
+	}
+	if (factor > 2) {
+		factor = 2;
+	}
+	byte result = (byte) number;
+	if (factor == 2) {
+		number &= B00001111; // we only use the 4 LSBs of given number
+		byte pattern = B00000001;
+		result  = B00000000;
+		for (int i = 0; i < 4; i++) {
+			byte temp = number & pattern;
+			result = result >> 2;
+			if (temp == B00000001) {
+				result |= B11000000;
+			}
+			number = number >> 1;
+		}
+	}
+
+	return result;
+}
+
+void setNumberToMatrixColumn(int column, int number, int factor, int intensity) {
+	// print a number ranging from 0 - 59 into column and column + 1 of led matrix
+	// each bit consists of a factor x factor array of LEDs
+	// intensity must range from 0 .. 15
+	byte firstDigit  = enlargeBinaryNumber((byte)(number / 10), factor);
+	byte secondDigit = enlargeBinaryNumber((byte)(number % 10), factor);
+
+	lc.setIntensity(0,intensity);
+	for (int i=0; i < factor; i++) {
+		lc.setColumn(0, factor * column + i, firstDigit);
+	}
+	for (int i=0; i < factor; i++) {
+		lc.setColumn(0, factor * column + factor + i, secondDigit);
+	}
+}
+
+void setNumberToMatrixRow(int row, int number, int factor, int intensity) {
+	// print a number ranging from 0 - 59 into row and row + 1 of led matrix
+	// each bit consists of a factor x factor array of LEDs
+	// intensity must range from 0 .. 15
+	byte firstDigit  = enlargeBinaryNumber((byte)(number / 10), factor);
+	byte secondDigit = enlargeBinaryNumber((byte)(number % 10), factor);
+
+	lc.setIntensity(0,intensity);
+	for (int i=0; i < factor; i++) {
+		lc.setRow(0, factor * row + i, firstDigit);
+	}
+	for (int i=0; i < factor; i++) {
+		lc.setRow(0, factor * row + factor + i, secondDigit);
+	}
 }

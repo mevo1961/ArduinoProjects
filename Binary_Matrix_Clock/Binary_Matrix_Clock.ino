@@ -36,7 +36,7 @@ byte enlargeBinaryNumber(byte number, int factor) {
 
 void setNumberToMatrixColumn(int column, int number, int factor, int intensity) {
 	// print a number ranging from 0 - 59 into column and column + 1 of led matrix
-	// each bit consists of a 2x2 array of LEDs
+	// each bit consists of a factor x factor array of LEDs
 	// intensity must range from 0 .. 15
 	byte firstDigit  = enlargeBinaryNumber((byte)(number / 10), factor);
 	byte secondDigit = enlargeBinaryNumber((byte)(number % 10), factor);
@@ -52,7 +52,7 @@ void setNumberToMatrixColumn(int column, int number, int factor, int intensity) 
 
 void setNumberToMatrixRow(int row, int number, int factor, int intensity) {
 	// print a number ranging from 0 - 59 into row and row + 1 of led matrix
-	// each bit consists of a 2x2 array of LEDs
+	// each bit consists of a factor x factor array of LEDs
 	// intensity must range from 0 .. 15
 	byte firstDigit  = enlargeBinaryNumber((byte)(number / 10), factor);
 	byte secondDigit = enlargeBinaryNumber((byte)(number % 10), factor);
@@ -89,8 +89,8 @@ void loop()
 	//Add your repeated code here
 	time_t t = now();
 	int intensity = 4;
-	setNumberToMatrixRow(0, hour(t), 2, intensity);
-	setNumberToMatrixRow(2, minute(t), 2, intensity);
+	setNumberToMatrixColumn(0, hour(t), 2, intensity);
+	setNumberToMatrixColumn(2, minute(t), 2, intensity);
 	delay(250);
 }
 
