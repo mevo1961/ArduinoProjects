@@ -42,31 +42,31 @@ void translateIR() // takes action based on IR code received
 	switch(results.value)
 
 	{
-		case 0xFFA25D: nextAction = ACTION_POWER;                     break;
-		case 0xFFE21D: nextAction = ACTION_STOP;                      break;
-		case 0xFFA857: nextAction = ACTION_VOLUME; deltaVolume = -1;  break;
-		case 0xFF629D: nextAction = ACTION_VOLUME; deltaVolume = 1;   break;
-		case 0xFF22DD: nextAction = ACTION_MOVE; deltaMove = -1;      break;
-		case 0xFFC23D: nextAction = ACTION_MOVE; deltaMove = 1;       break;
-		case 0xFF02FD: nextAction = ACTION_PAUSE;                     break;
-		case 0xFFE01F: nextAction = ACTION_UP_DOWN; deltaUpDown = -1; break;
-		case 0xFF906F: nextAction = ACTION_UP_DOWN; deltaUpDown = 1;  break;
-		case 0xFF9867: nextAction = ACTION_EQ;                        break;
-		case 0xFFB04F: nextAction = ACTION_REPT;                      break;
-		case 0xFF6897: nextAction = ACTION_DIGIT; nextDigit = 0;      break;
-		case 0xFF30CF: nextAction = ACTION_DIGIT; nextDigit = 1;      break;
-		case 0xFF18E7: nextAction = ACTION_DIGIT; nextDigit = 2;      break;
-		case 0xFF7A85: nextAction = ACTION_DIGIT; nextDigit = 3;      break;
-		case 0xFF10EF: nextAction = ACTION_DIGIT; nextDigit = 4;      break;
-		case 0xFF38C7: nextAction = ACTION_DIGIT; nextDigit = 5;      break;
-		case 0xFF5AA5: nextAction = ACTION_DIGIT; nextDigit = 6;      break;
-		case 0xFF42BD: nextAction = ACTION_DIGIT; nextDigit = 7;      break;
-		case 0xFF4AB5: nextAction = ACTION_DIGIT; nextDigit = 8;      break;
-		case 0xFF52AD: nextAction = ACTION_DIGIT; nextDigit = 9;      break;
-		case 0xFFFFFFFF:                                              break; // Repeat: leave nextAction unchanged
+		case 0xFFA25D: nextAction = ACTION_POWER;                      break;
+		case 0xFFE21D: nextAction = ACTION_STOP;                       break;
+		case 0xFFA857: nextAction = ACTION_VOLUME;  deltaVolume = -1;  break;
+		case 0xFF629D: nextAction = ACTION_VOLUME;  deltaVolume =  1;  break;
+		case 0xFF22DD: nextAction = ACTION_MOVE;    deltaMove   = -1;  break;
+		case 0xFFC23D: nextAction = ACTION_MOVE;    deltaMove   =  1;  break;
+		case 0xFF02FD: nextAction = ACTION_PAUSE;                      break;
+		case 0xFFE01F: nextAction = ACTION_UP_DOWN; deltaUpDown = -1;  break;
+		case 0xFF906F: nextAction = ACTION_UP_DOWN; deltaUpDown =  1;  break;
+		case 0xFF9867: nextAction = ACTION_EQ;                         break;
+		case 0xFFB04F: nextAction = ACTION_REPT;                       break;
+		case 0xFF6897: nextAction = ACTION_DIGIT;   nextDigit    = 0;  break;
+		case 0xFF30CF: nextAction = ACTION_DIGIT;   nextDigit    = 1;  break;
+		case 0xFF18E7: nextAction = ACTION_DIGIT;   nextDigit    = 2;  break;
+		case 0xFF7A85: nextAction = ACTION_DIGIT;   nextDigit    = 3;  break;
+		case 0xFF10EF: nextAction = ACTION_DIGIT;   nextDigit    = 4;  break;
+		case 0xFF38C7: nextAction = ACTION_DIGIT;   nextDigit    = 5;  break;
+		case 0xFF5AA5: nextAction = ACTION_DIGIT;   nextDigit    = 6;  break;
+		case 0xFF42BD: nextAction = ACTION_DIGIT;   nextDigit    = 7;  break;
+		case 0xFF4AB5: nextAction = ACTION_DIGIT;   nextDigit    = 8;  break;
+		case 0xFF52AD: nextAction = ACTION_DIGIT;   nextDigit    = 9;  break;
+		case 0xFFFFFFFF:                                               break; // Repeat: leave nextAction unchanged
 
 		default:
-			Serial.println(" other button   ");
+			Serial.println(" other button   ");						   break;
 
 	}// End Case
 
@@ -81,11 +81,11 @@ void executeAction(int action)
 	Serial.println(action);
 	switch (action)
 	{
-	case ACTION_DIGIT:   handleDigit(nextDigit);       break;
-	case ACTION_UP_DOWN: handleIntensity(deltaUpDown); break;
-	case ACTION_STOP:    handleStop();                 break;
+	case ACTION_DIGIT:   handleDigit(nextDigit);        break;
+	case ACTION_UP_DOWN: handleIntensity(deltaUpDown);  break;
+	case ACTION_STOP:    handleStop();                  break;
 
-	default:                                           break; //leave all other buttons unhandled for now
+	default:                                            break; //leave all other buttons unattended for now
 	}
 }
 
