@@ -68,7 +68,7 @@ void translateIR() // takes action based on IR code received
 		default:
 			Serial.println(" other button   ");						   break;
 
-	}// End Case
+	}
 
 
 
